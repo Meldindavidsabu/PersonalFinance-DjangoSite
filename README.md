@@ -1,6 +1,6 @@
 # PersonalFinance-DjangoSite
 # **A Comprehensive Personal Finance Website using Django, MySQL, and Bootstrap**
-(Check The Master Branch)
+(Check The  **Master Branch**)
 <img width="908" alt="ww0" src="https://github.com/user-attachments/assets/7c469ebf-cb59-4b0b-9f78-336f53c95d2f">
 
 **Project Overview**  
