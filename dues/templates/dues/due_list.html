@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dues - Personal Finance Tracker</title>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+
+        <h1>Your Dues</h1>
+        <a class="btn btn-primary" href="{% url 'dashboard' %}">Dashboard</a>
+
+
+        <a href="{% url 'add_due' %}" class="btn btn-primary mb-3">Add New Due</a>
+        
+        <!-- Filter Form -->
+        <form method="GET" action="{% url 'due_list' %}" class="row g-3 mb-3">
+            <div class="col-md-3">
+                <input type="number" class="form-control" name="amount" placeholder="Filter by Amount" value="{{ request.GET.amount }}">
+            </div>
+            <div class="col-md-3">
+                <input type="text" class="form-control" name="person_entity" placeholder="Filter by Person/Entity" value="{{ request.GET.person_entity }}">
+            </div>
+            <div class="col-md-3">
+                <input type="date" class="form-control" name="due_date" placeholder="Filter by Due Date" value="{{ request.GET.due_date|default:'' }}">
+            </div>
+            <div class="col-md-3">
+                <input type="date" class="form-control" name="return_date" placeholder="Filter by Return Date" value="{{ request.GET.return_date|default:'' }}">
+            </div>
+            <div class="col-md-3">
+                <input type="text" class="form-control" name="reason" placeholder="Filter by Reason" value="{{ request.GET.reason }}">
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-secondary">Filter</button>
+            </div>
+        </form>
+
+        <!-- Total Dues Amount -->
+        <div class="mb-3">
+            {% if total_amount %}
+                <h4>Total Amount: {{ total_amount }}</h4>
+            {% endif %}
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Amount</th>
+                    <th>Person/Entity</th>
+                    <th>Due Date</th>
+                    <th>Return Date</th>
+                    <th>Reason</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if dues %}
+                    {% for due in dues %}
+                    <tr>
+                        <td>{{ due.amount }}</td>
+                        <td>{{ due.person_entity }}</td>
+                        <td>{{ due.due_date }}</td>
+                        <td>{{ due.return_date }}</td>
+                        <td>{{ due.reason }}</td>
+                        <td>
+                            <a href="{% url 'edit_due' due.id %}" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="{% url 'delete_due' due.id %}" class="btn btn-danger btn-sm">Delete</a>
+
+                            <!-- Notify Button triggers the modal -->
+                            <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#notifyModal-{{ due.id }}">
+                                Notify
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="notifyModal-{{ due.id }}" tabindex="-1" aria-labelledby="notifyModalLabel-{{ due.id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="notifyModalLabel-{{ due.id }}">Notify Borrower</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="notifyForm-{{ due.id }}" method="post" action="{% url 'notify_due' due.id %}">
+                                                {% csrf_token %}
+                                                <div class="mb-3">
+                                                    <label for="borrowerEmail-{{ due.id }}" class="form-label">Borrower's Email</label>
+                                                    <input type="email" class="form-control" id="borrowerEmail-{{ due.id }}" name="borrower_email" placeholder="Enter borrower's email" required>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary" form="notifyForm-{{ due.id }}">Send Notification</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6">No dues found matching your criteria.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

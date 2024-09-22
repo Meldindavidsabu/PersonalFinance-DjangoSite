@@ -1,0 +1,15 @@
+<div class="container">
+    <h1>Your Retirement Goals</h1>
+    {% for goal in goals %}
+        <div class="goal-details">
+            <h3>{{ goal.goal_name }}</h3>
+            <p>Target Amount: {{ goal.target_amount }}</p>
+            <p>Current Amount: {{ goal.current_amount }}</p>
+            <p>Inflation Rate: {{ inflation_rate }}</p>
+            <div class="progress">
+                <div class="progress-bar" style="width: {{ goal.progress_percentage }}%;"></div>
+                <div class="progress-bar-text">{{ goal.progress_percentage }}%</div>
+            </div>
+        </div>
+    {% endfor %}
+</div>

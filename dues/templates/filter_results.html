@@ -1,0 +1,27 @@
+<h2>Filtered Dues</h2>
+{% if dues %}
+  <table>
+    <thead>
+      <tr>
+        <th>Amount</th>
+        <th>Person/Entity</th>
+        <th>Due Date</th>
+        <th>Return Date</th>
+        <th>Reason</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for due in dues %}
+        <tr>
+          <td>{{ due.amount }}</td>
+          <td>{{ due.person_entity }}</td>
+          <td>{{ due.due_date }}</td>
+          <td>{{ due.return_date }}</td>
+          <td>{{ due.reason }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p>No dues found matching your criteria.</p>
+{% endif %}

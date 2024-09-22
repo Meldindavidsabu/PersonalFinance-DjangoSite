@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Income vs Expense Dashboard</title>
+    <link rel="stylesheet" href="{% static 'styles/dashboard.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .dashboard-summary {
+            margin: 20px;
+            text-align: center;
+        }
+
+        .dashboard-summary p {
+            font-size: 1.5em;
+            margin: 0.5em 0;
+        }
+
+        .dashboard-summary p strong {
+            color:green; /*  Customize this color */
+        }
+
+        .dashboard-summary p.total-income {
+            color: green; /* Customize color for Total Income */
+        }
+
+        .dashboard-summary p.total-expense {
+            color: red; /* Customize color for Total Expenses */
+        }
+
+        .dashboard-summary p.balance {
+            color: blue; 
+        }
+        .navbar {
+            background-color: #000;
+            padding: 1rem;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .navbar-nav .nav-link {
+            color: #fff;
+            margin-left: 1rem;
+            margin-right: 1rem;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #ddd;
+        }
+
+        .dashboard-summary {
+            margin: 20px;
+            text-align: center;
+        }
+
+        .dashboard-summary p {
+            font-size: 1.5em;
+            margin: 0.5em 0;
+            color: #333;
+        }
+
+        .dashboard-summary p strong {
+            color: #000;
+        }
+
+        .chart-container {
+            text-align: center;
+            margin: 20px;
+        }
+
+        footer.footer {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+        }
+
+        footer.footer a {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        footer.footer a:hover {
+            color: #ddd;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .btn-danger {
+            margin-left: auto;
+            margin-right: 1rem;
+        }
+    .container {
+    padding-bottom: 150px; /* Adds space at the bottom */
+}
+
+form.text-center {
+    margin-bottom: 150px; /* Adds margin at the bottom of the form */
+}
+  main {
+            padding-bottom: 80px; /* Adjusts space at the bottom */
+        }
+        .btn-custom {
+    background: linear-gradient(to right, #ff7e5f, #feb47b); /* Gradient background */
+    border: none; /* Remove border */
+    color: white; /* Text color */
+    padding: 10px 20px; /* Padding */
+    font-size: 1rem; /* Font size */
+    font-weight: bold; /* Bold text */
+    border-radius: 5px; /* Rounded corners */
+    text-align: center; /* Center text */
+    display: inline-block; /* Align properly */
+     
+}
+
+.btn-custom:hover {
+    background: linear-gradient(to right, #feb47b, #ff7e5f); /* Reverse gradient on hover */
+    color: #333; /* Text color on hover */
+    text-decoration: none; /* Remove underline on hover */
+}
+
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand d-flex align-items-center">
+                    <span class="me-2">WealthWatcher</span>
+                    <p class="mb-0 d-inline" style="font-size: 0.6rem; color: #ccc;">Wealth Watching, Simplified...</p>
+                </a>
+                <a href="{% url 'home' %}" class="btn btn-danger">Home</a>
+            </div>
+        </nav>
+    </header>
+    <br>
+    <a href="{% url 'expense_list' %}" class="btn btn-custom mb-2">Back to the list</a>
+
+    <main>
+          <h1>Income vs Expense Dashboard</h1>
+        <div class="dashboard-summary">
+            <p class="total-income"><strong>Total Income:</strong> ₹{{ total_income }}</p>
+            <p class="total-expense"><strong>Total Expenses:</strong> ₹{{ total_expense }}</p>
+            <p class="balance"><strong>Balance:</strong> ₹{{ balance }}</p>
+        </div>
+        <div class="chart-container">
+            <h2>Balance Trend</h2>
+            <img src="data:image/png;base64,{{ balance_trend_chart|safe }}" alt="Balance Trend Chart">
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 <a href="https://buymeacoffee.com/meldin" target="_blank">WealthWatcher</a> - Made with 🤍 by <a href="https://github.com/Meldindavidsabu" target="_blank">Meldin</a></p>
+    </footer>
+</body>
+</html>

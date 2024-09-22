@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mutual Funds</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <h1>Mutual Funds</h1>
+    
+    {% if error %}
+        <p>Error: {{ error }}</p>
+    {% else %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Short Name</th>
+                    <th>Fund House</th>
+                    <th>Category</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for fund in funds %}
+                    <tr>
+                        <td>{{ fund.code }}</td>
+                        <td>{{ fund.name }}</td>
+                        <td>{{ fund.short_name }}</td>
+                        <td>{{ fund.fund_house }}</td>
+                        <td>{{ fund.category }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5">No mutual funds available.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</body>
+</html>

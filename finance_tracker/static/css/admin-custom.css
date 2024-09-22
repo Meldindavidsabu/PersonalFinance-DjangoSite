@@ -1,0 +1,26 @@
+/* Custom styles for Django admin interface */
+#site-name a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.navbar {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.nav-link {
+    color: #495057;
+}
+
+.nav-link:hover {
+    color: #007bff;
+}
+
+.nav-item {
+    margin-right: 1rem;
+}

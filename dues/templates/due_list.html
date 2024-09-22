@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+{%load static%}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            background-color: #000;
+        }
+        
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
+        .container {
+    height: auto; /* Adjusts height based on content */
+    overflow-y: auto; /* Allows scrolling if content overflows */
+}
+.container {
+    padding-bottom: 26px; /* Adds space at the bottom */
+}
+
+form.text-center {
+    margin-bottom: 26px; /* Adds margin at the bottom of the form */
+}
+
+        .navbar-nav .nav-link {
+            color: #fff;
+            margin-left: 1rem;
+            margin-right: 1rem;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #ddd;
+        }
+        .container {
+            margin-top: 3rem;
+        }
+        .table thead th {
+            background-color: #343a40;
+            color: #fff;
+        }
+        .footer {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            padding: 0.1rem 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        .btn-primary {
+            background-color: #000;
+            border-color: #000;
+        }
+        .btn-primary:hover {
+            background-color: #444;
+            border-color: #444;
+        }
+        h1, h2, h3 {
+            color: #000;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<head>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand d-flex align-items-center">
+                    <span class="me-2">WealthWatcher</span>
+                    <p class="mb-0 d-inline" style="font-size: 0.6rem; color: #ccc;">Wealth Watching, Simplified...</p>
+                </a>
+                <a href="{% url 'home' %}" class="btn btn-danger">Home</a>
+            </div>
+        </nav>
+    </header>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dues - Personal Finance Tracker</title>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Your Dues</h1>
+        <div class="d-flex mb-3">
+            <a href="{% url 'add_due' %}" class="btn btn-primary mr-3">Add New Due</a>
+            </div>
+            <div class="d-flex mb-3">
+
+            <a class="btn btn-primary" href="{% url 'dashboard' %}">Dashboard</a>
+        </div>
+        <!-- Filter Form -->
+        <form method="GET" action="{% url 'filter_dues' %}" class="row g-3 mb-3">
+            <div class="col-md-3">
+                <input type="number" class="form-control" name="amount" placeholder="Filter by Amount" value="{{ request.GET.amount }}">
+            </div>
+            <div class="col-md-3">
+                <input type="text" class="form-control" name="person_entity" placeholder="Filter by Person/Entity" value="{{ request.GET.person_entity }}">
+            </div>
+            <div class="col-md-3">
+            </div>
+            <label for="borrowed_on">Filter by Borrowed Date:</label>
+<input type="date" class="form-control" id="borrowed_on" name="borrowed_on" value="{{ request.GET.borrowed_on }}">
+
+           <div class="form-group">
+    <label for="return_date">Filter by Return Date:</label>
+    <input type="date" class="form-control" id="return_date" name="return_date" value="{{ request.GET.return_date }}">
+</div>
+
+            <div class="col-md-3">
+                <input type="text" class="form-control" name="reason" placeholder="Filter by Reason" value="{{ request.GET.reason }}">
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-secondary">Filter</button>
+                <a href="{% url 'due_list' %}" class="btn btn-light">Clear</a>
+            </div>
+        </form>
+
+        <!-- Total Dues Amount -->
+        <div class="mb-3">
+            {% if total_amount %}
+                <h4>Total Amount Borrowed : {{ total_amount }}</h4>
+            {% endif %}
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Amount</th>
+                    <th>Person/Entity</th>
+                    <th>Borrowed On</th>
+                    <th>Return Date</th>
+                    <th>Reason</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if dues %}
+                    {% for due in dues %}
+                    <tr>
+                        <td>{{ due.amount }}</td>
+                        <td>{{ due.person_entity }}</td>
+                        <td>{{ due.borrowed_on }}</td>
+                        <td>{{ due.return_date }}</td>
+                        <td>{{ due.reason }}</td>
+                        <td>
+                            <a href="{% url 'edit_due' due.id %}" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="{% url 'delete_due' due.id %}" class="btn btn-danger btn-sm">Delete</a>
+
+                            <!-- Notify Button triggers the modal -->
+                            <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#notifyModal-{{ due.id }}">
+                                Notify
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="notifyModal-{{ due.id }}" tabindex="-1" aria-labelledby="notifyModalLabel-{{ due.id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="notifyModalLabel-{{ due.id }}">Notify Borrower</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="notifyForm-{{ due.id }}" method="post" action="{% url 'notify_due' due.id %}">
+                                                {% csrf_token %}
+                                                <div class="mb-3">
+                                                    <label for="borrowerEmail-{{ due.id }}" class="form-label">Borrower's Email</label>
+                                                    <input type="email" class="form-control" id="borrowerEmail-{{ due.id }}" name="borrower_email" placeholder="Enter borrower's email" required>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary" form="notifyForm-{{ due.id }}">Send Notification</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6">No dues found matching your criteria.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+<footer class="footer">
+    <p>&copy; 2024 <a href="https://buymeacoffee.com/meldin" target="_blank" style="color: #fff; text-decoration: underline;">WealthWatcher</a> - Made with 🤍 by <a href="https://github.com/Meldindavidsabu" target="_blank" style="color: #fff; text-decoration: underline;">Meldin</a></p>
+</footer>
+
+
+
+</body>
+</html>

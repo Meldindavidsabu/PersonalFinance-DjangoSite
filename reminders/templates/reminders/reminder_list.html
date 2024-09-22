@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <a href="http://127.0.0.1:8000/" class="btn btn-secondary">Home</a>
+
+    <title>Reminder List</title>
+</head>
+{% load static %}
+<body>
+    <h1>Reminder List</h1>
+
+    <!-- Display Upcoming Holidays -->
+    <h2>Upcoming Holidays</h2>
+    <ul>
+        {% for holiday in holidays %}
+            <li>
+                <strong>{{ holiday.name }}</strong><br>
+                Date: {{ holiday.date }}<br>
+                Description: {{ holiday.description }}
+            </li>
+        {% empty %}
+            <li>No upcoming holidays found.</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Display User's Reminders -->
+    <h2>Your Reminders</h2>
+    <ul>
+        {% for reminder in reminders %}
+            <li>
+                <strong>{{ reminder.title }}</strong><br>
+                {{ reminder.description }}<br>
+                Date: {{ reminder.date }}<br>
+                Time: {{ reminder.time }}<br>
+                {% if reminder.is_notified %}
+                    <span>Notified</span>
+                {% else %}
+                    <span>Not Notified</span>
+                {% endif %}
+                <br>
+                <a href="{% url 'edit_reminder' reminder.pk %}">Edit</a> |
+                <a href="{% url 'delete_reminder' reminder.pk %}">Delete</a>
+            </li>
+        {% empty %}
+            <li>No reminders found.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,0 +1,24 @@
+/* custom_admin.css */
+
+/* Change the background color of the entire admin site */
+body {
+    background-color: #f0f0f0;
+}
+
+/* Change the color of the header */
+.navbar, .header {
+    background-color: #343a40;  /* Darker background */
+    color: #ffffff;  /* White text */
+}
+
+/* Change the color of the sidebar */
+.module h2, .app-label {
+    background-color: #343a40;  /* Darker background */
+    color: #ffffff;  /* White text */
+}
+
+/* Change the color of the action buttons */
+.button {
+    background-color: #007bff;  /* Bootstrap primary color */
+    color: #ffffff;  /* White text */
+}

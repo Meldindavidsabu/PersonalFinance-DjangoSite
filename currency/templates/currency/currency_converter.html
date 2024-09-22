@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Select2 CSS for searchable dropdowns -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    
+    <style>
+        /* Custom styling to ensure buttons are aligned properly */
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Currency Converter</h1>
+
+        <form method="POST" action="{% url 'convert_currency' %}">
+            {% csrf_token %}
+            
+            <!-- Dropdown for 'From Currency' with search -->
+            <div class="mb-3">
+                <label for="from_currency" class="form-label">From Currency:</label>
+                <select name="from_currency" id="from_currency" class="form-select select2" required>
+                    <option value="">Select From Currency</option>  <!-- No default value -->
+                    {% for currency_code, currency_name in currency_choices.items %}
+                    <option value="{{ currency_code }}">{{ currency_name }} ({{ currency_code }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Dropdown for 'To Currency' with search -->
+            <div class="mb-3">
+                <label for="to_currency" class="form-label">To Currency:</label>
+                <select name="to_currency" id="to_currency" class="form-select select2" required>
+                    <option value="">Select To Currency</option>  <!-- No default value -->
+                    {% for currency_code, currency_name in currency_choices.items %}
+                    <option value="{{ currency_code }}">{{ currency_name }} ({{ currency_code }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Input for Amount -->
+            <div class="mb-3">
+                <label for="amount" class="form-label">Amount:</label>
+                <input type="number" name="amount" id="amount" class="form-control" placeholder="Enter amount" required>
+            </div>
+
+            <!-- Button container for Convert and Clear buttons -->
+            <div class="button-container mb-3">
+                <button type="submit" class="btn btn-primary">Convert</button>
+                <button type="button" class="btn btn-secondary" id="clearForm">Clear</button>
+            </div>
+        </form>
+
+        <!-- Display Converted Amount -->
+        {% if converted_amount %}
+        <div class="mt-3">
+            <h3>Converted Amount:</h3>
+            <p>{{ amount }} {{ from_currency }} equals {{ converted_amount }} {{ to_currency }}</p>
+        </div>
+        {% elif error %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
+    <!-- jQuery (required for Select2) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Select2 JS for searchable dropdowns -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+    <script>
+        // Initialize Select2 for searchable dropdowns
+        $(document).ready(function() {
+            $('.select2').select2({
+                placeholder: "Select a currency",
+                allowClear: true  // Adds a clear button inside the dropdowns
+            });
+        });
+
+        // Clear button functionality to reset the form
+        document.getElementById('clearForm').addEventListener('click', function() {
+            document.getElementById('from_currency').value = '';  // Clear 'from currency' dropdown
+            document.getElementById('to_currency').value = '';  // Clear 'to currency' dropdown
+            document.getElementById('amount').value = '';  // Clear amount input
+
+            // Trigger change event to update Select2
+            $('#from_currency').val(null).trigger('change');
+            $('#to_currency').val(null).trigger('change');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!-- notification_email.html -->
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    th, td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+    th {
+        background-color: #f4f4f4;
+    }
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+</style>
+
+<h1>Financial Overview: {{ start_date }} to {{ end_date }}</h1>
+<p>Total Income: {{ total_income }}</p>
+<p>Total Expense: {{ total_expense }}</p>
+<p>Balance: {{ balance }}</p>
+
+<h2>Income</h2>
+{% if incomes %}
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Source</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for income in incomes %}
+            <tr>
+                <td>{{ income.title }}</td>
+                <td>{{ income.amount }}</td>
+                <td>{{ income.date }}</td>
+                <td>{{ income.source }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No income records for this period.</p>
+{% endif %}
+
+<h2>Expenses</h2>
+{% if expenses %}
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Category</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for expense in expenses %}
+            <tr>
+                <td>{{ expense.title }}</td>
+                <td>{{ expense.amount }}</td>
+                <td>{{ expense.date }}</td>
+                <td>{{ expense.category }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No expense records for this period.</p>
+{% endif %}

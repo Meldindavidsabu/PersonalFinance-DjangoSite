@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Income List</title>
+</head>
+<body>
+    <h1>Income List</h1>
+    <h2>Total Income: {{ total_income }}</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Category</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for income in income_list %}
+                <tr>
+                    <td>{{ income.title }}</td>
+                    <td>{{ income.amount }}</td>
+                    <td>{{ income.date }}</td>
+                    <td>{{ income.category }}</td>
+                    <td>{{ income.description }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">No incomes found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>

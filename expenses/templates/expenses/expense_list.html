@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Summary - WealthWatcher</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            background-color: #000;
+        }
+        
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
+        .container {
+    height: auto; /* Adjusts height based on content */
+    overflow-y: auto; /* Allows scrolling if content overflows */
+}
+.container {
+    padding-bottom: 26px; /* Adds space at the bottom */
+}
+
+form.text-center {
+    margin-bottom: 26px; /* Adds margin at the bottom of the form */
+}
+
+        .navbar-nav .nav-link {
+            color: #fff;
+            margin-left: 1rem;
+            margin-right: 1rem;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #ddd;
+        }
+        .container {
+            margin-top: 3rem;
+        }
+        .table thead th {
+            background-color: #343a40;
+            color: #fff;
+        }
+        .footer {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            padding: 0.1rem 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        .btn-primary {
+            background-color: #000;
+            border-color: #000;
+        }
+        .btn-primary:hover {
+            background-color: #444;
+            border-color: #444;
+        }
+        h1, h2, h3 {
+            color: #000;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand d-flex align-items-center">
+                    <span class="me-2">WealthWatcher</span>
+                    <p class="mb-0 d-inline" style="font-size: 0.6rem; color: #ccc;">Wealth Watching, Simplified...</p>
+                </a>
+                <a href="{% url 'home' %}" class="btn btn-danger">Home</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <h1 class="text-center">Financial Summary</h1>
+
+        <div class="card my-4">
+            <div class="card-body">
+                <h2>Balance: <span class="text-success">{{ balance }}</span></h2>
+                <h3>Total Income: <span class="text-primary">{{ total_income }}</span></h3>
+                <h3>Total Expense: <span class="text-danger">{{ total_expense }}</span></h3>
+            </div>
+        </div>
+<a class="btn btn-primary" href="{% url 'income_expense_dashboard' %}">Dashboard</a>
+
+        <!-- Income Section -->
+        <div class="mb-4">
+            <h2 class="mb-3">Incomes</h2>
+            <div class="d-flex justify-content-between mb-3">
+                <a href="{% url 'income_create' %}" class="btn btn-primary">Add Income</a>
+                <div>
+                    <a href="{% url 'export_income_pdf' %}" class="btn btn-primary">Export to PDF</a>
+                    <a href="{% url 'export_income_excel' %}" class="btn btn-primary">Export to Excel</a>
+                </div>
+            </div>
+
+            <table class="table table-bordered table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Title</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Source</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for income in income_list %}
+                        <tr>
+                            <td>{{ income.title }}</td>
+                            <td>{{ income.amount }}</td>
+                            <td>{{ income.date }}</td>
+                            <td>{{ income.source }}</td>
+                            <td>{{ income.description }}</td>
+                            <td>
+                                <a href="{% url 'income_update' income.pk %}" class="btn btn-sm btn-primary">Edit</a>
+                                <a href="{% url 'income_delete' income.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center">No incomes found.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Expense Section -->
+        <div class="mb-4">
+            <h2 class="mb-3">Expenses</h2>
+            <div class="d-flex justify-content-between mb-3">
+                <a href="{% url 'expense_create' %}" class="btn btn-primary">Add Expense</a>
+                <div>
+                    <a href="{% url 'export_expenses_pdf' %}" class="btn btn-primary">Export to PDF</a>
+                    <a href="{% url 'export_expenses_excel' %}" class="btn btn-primary">Export to Excel</a>
+                </div>
+            </div>
+
+            <table class="table table-bordered table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Title</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for expense in expense_list %}
+                        <tr>
+                            <td>{{ expense.title }}</td>
+                            <td>{{ expense.amount }}</td>
+                            <td>{{ expense.date }}</td>
+                            <td>{{ expense.category }}</td>
+                            <td>{{ expense.description }}</td>
+                            <td>
+                                <a href="{% url 'expense_edit' expense.pk %}" class="btn btn-sm btn-primary">Edit</a>
+                                <a href="{% url 'expense_delete' expense.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center">No expenses found.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Export and Email Reports Button -->
+        <form action="{% url 'export_to_email' %}" method="post" class="text-center">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Export and Email Reports</button>
+        </form>
+    </div>
+
+    <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2024 <a href="https://buymeacoffee.com/meldin" target="_blank" style="color: #fff; text-decoration: underline;">WealthWatcher</a> - Made with 🤍 by <a href="https://github.com/Meldindavidsabu" target="_blank" style="color: #fff; text-decoration: underline;">Meldin</a></p>
+</footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

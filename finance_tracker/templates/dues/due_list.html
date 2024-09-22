@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dues - Personal Finance Tracker</title>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Your Dues</h1>
+        <a href="{% url 'add_due' %}" class="btn btn-primary mb-3">Add New Due</a>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Amount</th>
+                    <th>Person/Entity</th>
+                    <th>Due Date</th>
+                    <th>Return Date</th>
+                    <th>Reason</th>
+                    <th>Cleared</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for due in dues %}
+                <tr>
+                    <td>{{ due.amount }}</td>
+                    <td>{{ due.person_entity }}</td>
+                    <td>{{ due.due_date }}</td>
+                    <td>{{ due.return_date }}</td>
+                    <td>{{ due.reason }}</td>
+                    <td>{{ due.dues_cleared|yesno:"Yes,No" }}</td>
+                    <td>
+                        <a href="{% url 'edit_due' due.id %}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="{% url 'delete_due' due.id %}" class="btn btn-danger btn-sm">Delete</a>
+                        <a href="#" class="btn btn-info btn-sm" onclick="document.getElementById('notify-{{ due.id }}').submit();">Notify</a>
+                        <form id="notify-{{ due.id }}" method="post" action="{% url 'notify_due' due.id %}">
+                            {% csrf_token %}
+                            <input type="email" name="borrower_email" placeholder="Enter borrower's email" required>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

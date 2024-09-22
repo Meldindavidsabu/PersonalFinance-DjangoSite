@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% load static%}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Retirement Goals</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        .progress {
+            position: relative;
+            width: 100%;
+            height: 30px;
+            background-color: #f3f3f3;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            position: absolute;
+            height: 100%;
+            background-color: #4caf50;
+            transition: width 2s ease-in-out;
+        }
+
+        .progress-bar-text {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            line-height: 30px;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Your Retirement Goals</h1>
+        {% for goal in goals %}
+            <h3>{{ goal.goal_name }}</h3>
+            <div class="progress">
+                <div class="progress-bar" style="width: {{ goal.progress_percentage }}%;"></div>
+                <div class="progress-bar-text">{{ goal.progress_percentage }}%</div>
+            </div>
+        {% endfor %}
+    </div>
+    <script>
+        // Optional: Add JavaScript to dynamically update progress bars if needed
+        window.onload = function() {
+            const progressBars = document.querySelectorAll('.progress-bar');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 100);
+            });
+        };
+    </script>
+</body>
+</html>
