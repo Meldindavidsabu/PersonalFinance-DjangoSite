@@ -1,6 +1,5 @@
-# PersonalFinance-DjangoSite
 # **A Comprehensive Personal Finance Website using Django, MySQL, and Bootstrap**
-(Check The  **Master Branch**)
+
 <img width="908" alt="ww0" src="https://github.com/user-attachments/assets/7c469ebf-cb59-4b0b-9f78-336f53c95d2f">
 
 **Project Overview**  
@@ -19,9 +18,11 @@ The Personal Finance Tracker is a powerful and comprehensive web application des
 - **Income and Expense tracking**, showing amounts distinctly.
 - **Add New Transaction**: A form to enter transaction details, amount, and date. 
 - **Export Data**: Users can extract their income, expenses, and balance data in Excel and PDF formats.
+  <img width="707" alt="fin sum" src="https://github.com/user-attachments/assets/d7065b2b-553e-48db-99da-30519a322b66">
 - **Email Summary**: An email with the user's income, expenses, and balance can be shared to their registered email.
 
-<img width="926" alt="ww2" src="https://github.com/user-attachments/assets/42d4dec8-5bbd-4969-b6cd-ba3538cd4273">
+ <img width="926" alt="ww2" src="https://github.com/user-attachments/assets/42d4dec8-5bbd-4969-b6cd-ba3538cd4273"> 
+
 
 ### **Add Note 📝**
 - Users can store personal or financial notes related to their transactions or financial goals.
@@ -39,6 +40,8 @@ The Personal Finance Tracker is a powerful and comprehensive web application des
 
 ### **Reminder Feature**
 - A Calendar allows users to set reminders for specific dates (e.g., "Pay insurance premium," "Sell HDFC mutual fund units").
+
+  <img width="704" alt="due mail" src="https://github.com/user-attachments/assets/ea9d6b79-230b-40bf-8434-5b8d4d00108c">
 - Users receive an email reminder on the selected date.
 
 <img width="929" alt="wwreminder" src="https://github.com/user-attachments/assets/0b83830b-8126-47af-b647-8ebcda767599">
@@ -56,4 +59,3 @@ The Personal Finance Tracker is a powerful and comprehensive web application des
 - Backend: Django (Python) + MySQL
 - Frontend: Bootstrap
 - Email Service: SMTP (for sending notifications and summaries)
-
