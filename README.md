@@ -18,6 +18,7 @@ The Personal Finance Tracker is a powerful and comprehensive web application des
 - **Income and Expense tracking**, showing amounts distinctly.
 - **Add New Transaction**: A form to enter transaction details, amount, and date. 
 - **Export Data**: Users can extract their income, expenses, and balance data in Excel and PDF formats.
+  ![WhatsApp Image 2024-12-01 at 1 24 24 PM (1)](https://github.com/user-attachments/assets/3e40798e-2ec7-4b4a-89ff-04525cd4602e)
 - **Email Summary**: An email with the user's income, expenses, and balance can be shared to their registered email.
 
 <img width="926" alt="ww2" src="https://github.com/user-attachments/assets/42d4dec8-5bbd-4969-b6cd-ba3538cd4273">
@@ -39,7 +40,7 @@ The Personal Finance Tracker is a powerful and comprehensive web application des
 ### **Reminder Feature**
 - A Calendar allows users to set reminders for specific dates (e.g., "Pay insurance premium," "Sell HDFC mutual fund units").
 - Users receive an email reminder on the selected date.
-
+![WhatsApp Image 2024-12-01 at 1 24 24 PM](https://github.com/user-attachments/assets/7f362f5f-f83e-466d-b5fd-5d8c30037533)
 <img width="929" alt="wwreminder" src="https://github.com/user-attachments/assets/0b83830b-8126-47af-b647-8ebcda767599">
 
 ### **API Integrations**
