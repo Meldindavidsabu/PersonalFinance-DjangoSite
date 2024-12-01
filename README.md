@@ -21,9 +21,10 @@ The Personal Finance Tracker is a powerful and comprehensive web application des
   <img width="707" alt="fin sum" src="https://github.com/user-attachments/assets/d7065b2b-553e-48db-99da-30519a322b66">
 
 
-- **Email Summary**: An email with the user's income, expenses, and balance can be shared to their registered email.
 
 <img width="926" alt="ww2" src="https://github.com/user-attachments/assets/42d4dec8-5bbd-4969-b6cd-ba3538cd4273">
+- **Email Summary**: An email with the user's income, expenses, and balance can be shared to their registered email.
+
 
 ### **Add Note 📝**
 - Users can store personal or financial notes related to their transactions or financial goals.
